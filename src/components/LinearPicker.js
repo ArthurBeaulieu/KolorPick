@@ -13,10 +13,7 @@ class LinearPicker extends BaseComponent {
 			wrapper: null,
 			picked: null,
 			light: null,
-			colors: null,
-			rgb: null,
-			hex: null,
-			hsl: null
+			colors: null
 		};
 		// Picking canvases
 		this._canvas = {
@@ -37,7 +34,7 @@ class LinearPicker extends BaseComponent {
 			colors: {
 				x: 0,
 				y: 0,
-				r: 5
+				r: 8
 			}
 		};
 		// Events internals
@@ -64,9 +61,6 @@ class LinearPicker extends BaseComponent {
 		this._dom.picked = document.createElement('DIV');
 		this._dom.light = document.createElement('DIV');
 		this._dom.colors = document.createElement('DIV');
-		this._dom.rgb = document.createElement('P');
-		this._dom.hex = document.createElement('P');
-		this._dom.hsl = document.createElement('P');
 
 		this._canvas.light = document.createElement('CANVAS');
 		this._canvas.colors = document.createElement('CANVAS');
@@ -74,14 +68,11 @@ class LinearPicker extends BaseComponent {
 		this._dom.wrapper.appendChild(this._dom.picked);
 		this._dom.wrapper.appendChild(this._dom.light);
 		this._dom.wrapper.appendChild(this._dom.colors);
-		this._dom.wrapper.appendChild(this._dom.rgb);
-		this._dom.wrapper.appendChild(this._dom.hex);
-		this._dom.wrapper.appendChild(this._dom.hsl);
 		this._renderTo.appendChild(this._dom.wrapper);
 
-		this._dom.wrapper.style.cssText = 'display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:1fr 50px 30px;height:100%;width:100%;';
-		this._dom.light.style.cssText = 'grid-column: span 2;';
-		this._dom.colors.style.cssText = 'align-items:center;display:flex;grid-column: span 3;justify-content:center;';
+		this._dom.wrapper.style.cssText = 'display:grid;grid-template-rows:50px 1fr 50px;height:100%;width:100%;';
+		this._dom.picked.style.cssText = 'margin:15px;';
+		this._dom.colors.style.cssText = 'align-items:center;display:flex;justify-content:center;';
 		this._canvas.light.style.cssText = 'height:100%;width:100%;'
 
     this._canvas.light.width = this._dom.light.offsetWidth;
@@ -90,16 +81,16 @@ class LinearPicker extends BaseComponent {
 		this._ctx.light = this._canvas.light.getContext('2d');
     this._ctx.light.translate(0.5, 0.5);
 
-    this._canvas.colors.width = this._dom.colors.offsetWidth - ((10 * this._dom.colors.offsetWidth) / 100);
-    this._canvas.colors.height = '15';
+    this._canvas.colors.width = this._dom.colors.offsetWidth - 40;
+    this._canvas.colors.height = '20';
     this._dom.colors.appendChild(this._canvas.colors);
 		this._ctx.colors = this._canvas.colors.getContext('2d');
     this._ctx.colors.translate(0.5, 0.5);
 
     this._picker.colors.x = this._canvas.colors.width / 2;
     this._picker.colors.y = this._canvas.colors.height / 2;
-    this._picker.light.x = this._canvas.light.width - this._picker.light.r;
-    this._picker.light.y = this._picker.light.r;
+    this._picker.light.x = this._canvas.light.width - 1;
+    this._picker.light.y = 1;
 	}
 
 
@@ -135,12 +126,10 @@ class LinearPicker extends BaseComponent {
 
 		// Color picker 
 		this._ctx.colors.beginPath();
-		//Arc renders a circle depending on the position, radius and arc
 		this._ctx.colors.arc(this._picker.colors.x, this._picker.colors.y, this._picker.colors.r, 0, Math.PI * 2);
-		//Render it in black but not fill (only stroke)
 		this._ctx.colors.strokeStyle = 'white';
+		this._ctx.colors.lineWidth = 3;
 		this._ctx.colors.fillStyle = `rgb(${pickedColor.r}, ${pickedColor.g}, ${pickedColor.b})`;
-		//Render the circle stroke and close the rendering path
 		this._ctx.colors.fill();
 		this._ctx.colors.stroke();
 		this._ctx.colors.closePath();	
@@ -148,21 +137,23 @@ class LinearPicker extends BaseComponent {
 		// Light picker
 		const pickedLight = this._getPickedLight();		
 		this._ctx.light.beginPath();
-		//Arc renders a circle depending on the position, radius and arc
 		this._ctx.light.arc(this._picker.light.x, this._picker.light.y, this._picker.light.r, 0, Math.PI * 2);
-		//Render it in black but not fill (only stroke)
 		this._ctx.light.strokeStyle = 'white';
+		this._ctx.light.lineWidth = 3;		
 		this._ctx.light.fillStyle = `rgb(${pickedLight.r}, ${pickedLight.g}, ${pickedLight.b})`;
-		//Render the circle stroke and close the rendering path
 		this._ctx.light.fill();
 		this._ctx.light.stroke();
 		this._ctx.light.closePath();
 
 		this._dom.picked.style.backgroundColor = `rgb(${pickedLight.r}, ${pickedLight.g}, ${pickedLight.b})`;
-		this._dom.rgb.innerHTML = `${pickedLight.r}, ${pickedLight.g}, ${pickedLight.b}`;
-		const hsl = Utils.rgb2hsl(pickedLight.r, pickedLight.g, pickedLight.b);
-		this._dom.hsl.innerHTML = `${Math.round(hsl.h * 360)}, ${Math.round(hsl.s * 100)}, ${Math.round(hsl.l * 100)}`;
-		this._dom.hex.innerHTML = `#${Utils.int2hex(pickedLight.r)}${Utils.int2hex(pickedLight.g)}${Utils.int2hex(pickedLight.b)}`;
+
+		this._onColorChange({
+			rgb: pickedLight,
+			hsl: Utils.rgb2hsl(pickedLight),
+			hsv: Utils.rgb2hsv(pickedLight),
+			cmyk: Utils.rgb2cmyk(pickedLight),
+			hex: Utils.rgb2hex(pickedLight)
+		});
 	}
 	
 

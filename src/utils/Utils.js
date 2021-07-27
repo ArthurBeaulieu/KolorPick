@@ -1,9 +1,7 @@
 class Utils {
 
 
-	constructor() {
-
-	}
+	constructor() {}
 
 
 	static getPickedPixelOnCtx(ctx, picker) {
@@ -16,14 +14,11 @@ class Utils {
 	}
 
 
-	static int2hex(num) {
-	  var hex = num.toString(16);
-  	return hex.length == 1 ? "0" + hex.toUpperCase() : hex.toUpperCase();
-	}
+	static rgb2hsl(rgb) {
+		const r = rgb.r / 255;
+		const g = rgb.g / 255;
+		const b = rgb.b / 255;
 
-
-	static rgb2hsl(r, g, b) {
-    (r /= 255), (g /= 255), (b /= 255);
     var max = Math.max(r, g, b);
     var min = Math.min(r, g, b);
     var h, s, l = (max + min) / 2;
@@ -45,10 +40,72 @@ class Utils {
       }
       h /= 6;
     }
-    return {h: h, s: s, l: l};
+    return {h: h * 360, s: s * 100, l: l * 100};
   }
 
-  
+
+	static rgb2hsv(rgb) {
+		const r = rgb.r / 255;
+		const g = rgb.g / 255;
+		const b = rgb.b / 255;
+
+	  var max = Math.max(r, g, b), min = Math.min(r, g, b);
+	  var h, s, v = max;
+
+	  var d = max - min;
+	  s = max == 0 ? 0 : d / max;
+
+	  if (max == min) {
+	    h = 0; // achromatic
+	  } else {
+	    switch (max) {
+	      case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+	      case g: h = (b - r) / d + 2; break;
+	      case b: h = (r - g) / d + 4; break;
+	    }
+
+	    h /= 6;
+	  }
+
+	  return { h: h * 360, s: s * 100, v: v * 100 };
+	}
+
+
+  static rgb2cmyk(rgb) {
+		if (rgb.r === 0 && rgb.g === 0 && rgb.b === 0) {
+		  computedK = 1;
+		  return { c: 0, m: 0, y: 0, k: 1 };
+		}
+
+		var computedC = 0;
+		var computedM = 0;
+		var computedY = 0;
+		var computedK = 0;
+
+		computedC = 1 - (rgb.r/255);
+		computedM = 1 - (rgb.g/255);
+		computedY = 1 - (rgb.b/255);
+
+		var minCMY = Math.min(computedC, Math.min(computedM, computedY));
+		computedC = Math.round((computedC - minCMY) / (1 - minCMY) * 100) ;
+		computedM = Math.round((computedM - minCMY) / (1 - minCMY) * 100) ;
+		computedY = Math.round((computedY - minCMY) / (1 - minCMY) * 100 );
+		computedK = Math.round(minCMY * 100);
+
+		return { c: computedC, m: computedM, y: computedY, k: computedK };
+	}
+
+
+	static rgb2hex(rgb) {
+		const int2hex = num => {
+		  var hex = num.toString(16);
+	  	return hex.length == 1 ? '0' + hex.toUpperCase() : hex.toUpperCase();
+		};
+
+		return `#${int2hex(rgb.r)}${int2hex(rgb.g)}${int2hex(rgb.b)}`;
+	}	
+
+
 }
 
 
