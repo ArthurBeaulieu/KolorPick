@@ -161,7 +161,15 @@ class RadialPicker extends BaseComponent {
 		this._ctx.light.fillStyle = `rgb(${pickedLight.r}, ${pickedLight.g}, ${pickedLight.b})`;
 		this._ctx.light.fill();
 		this._ctx.light.stroke();
-		this._ctx.light.closePath();		
+		this._ctx.light.closePath();
+
+		this._onColorChange({
+			rgb: pickedLight,
+			hsl: Utils.rgb2hsl(pickedLight),
+			hsv: Utils.rgb2hsv(pickedLight),
+			cmyk: Utils.rgb2cmyk(pickedLight),
+			hex: Utils.rgb2hex(pickedLight)
+		});				
 	}
 
 
