@@ -62,8 +62,8 @@ class LinearPicker extends BaseComponent {
 		this._dom.light = document.createElement('DIV');
 		this._dom.colors = document.createElement('DIV');
 
-		this._canvas.light = document.createElement('CANVAS');
 		this._canvas.colors = document.createElement('CANVAS');
+		this._canvas.light = document.createElement('CANVAS');
 
 		this._dom.wrapper.appendChild(this._dom.picked);
 		this._dom.wrapper.appendChild(this._dom.light);
@@ -75,17 +75,17 @@ class LinearPicker extends BaseComponent {
 		this._dom.colors.style.cssText = 'align-items:center;display:flex;justify-content:center;';
 		this._canvas.light.style.cssText = 'height:100%;width:100%;'
 
-    this._canvas.light.width = this._dom.light.offsetWidth;
-    this._canvas.light.height = this._dom.light.offsetHeight;
-    this._dom.light.appendChild(this._canvas.light);
-		this._ctx.light = this._canvas.light.getContext('2d');
-    this._ctx.light.translate(0.5, 0.5);
-
     this._canvas.colors.width = this._dom.colors.offsetWidth - 40;
     this._canvas.colors.height = '20';
     this._dom.colors.appendChild(this._canvas.colors);
 		this._ctx.colors = this._canvas.colors.getContext('2d');
     this._ctx.colors.translate(0.5, 0.5);
+
+    this._canvas.light.width = this._dom.light.offsetWidth;
+    this._canvas.light.height = this._dom.light.offsetHeight;
+    this._dom.light.appendChild(this._canvas.light);
+		this._ctx.light = this._canvas.light.getContext('2d');
+    this._ctx.light.translate(0.5, 0.5);
 
     this._picker.colors.x = this._canvas.colors.width / 2;
     this._picker.colors.y = this._canvas.colors.height / 2;
@@ -95,6 +95,9 @@ class LinearPicker extends BaseComponent {
 
 
 	_draw() {
+		this._ctx.colors.clearRect(0, 0, this._canvas.colors.width, this._canvas.colors.height);
+		this._ctx.light.clearRect(0, 0, this._canvas.light.width, this._canvas.light.height);
+				
 		let gradient = this._ctx.colors.createLinearGradient(0, 0, this._canvas.colors.width, 0);
 
 		gradient.addColorStop(0.02, 'rgb(255, 0, 0)');
