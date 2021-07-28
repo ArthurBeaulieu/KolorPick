@@ -1,12 +1,40 @@
-class Utils {
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: utils/Utils.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: utils/Utils.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>class Utils {
 
 
 	/** @summary Utils provides miscelaneous useful methods
    * @author Arthur Beaulieu
    * @since 2020
-   * @description <blockquote>This class doesn't need to be instantiated, as all its methods are static in order to
+   * @description &lt;blockquote>This class doesn't need to be instantiated, as all its methods are static in order to
    * make those utils methods available without constraints. Refer to each method for their associated documentation.
-   * This class contains several methods to manipulate canvas' contexts or make color conversions.</blockquote> */
+   * This class contains several methods to manipulate canvas' contexts or make color conversions.&lt;/blockquote> */
 	constructor() {}
 
 
@@ -17,7 +45,7 @@ class Utils {
    * @static
    * @author Arthur Beaulieu
    * @since 2021
-   * @description <blockquote>Fill context with radial gradient according to options object.</blockquote>
+   * @description &lt;blockquote>Fill context with radial gradient according to options object.&lt;/blockquote>
    * @param {object} ctx - The canvas context to extract color from
    * @param {object} picker - A picker object containing X and Y position
    * @param {object} picker.x - The pixel X position to study
@@ -36,8 +64,8 @@ class Utils {
    * @static
    * @author Arthur Beaulieu
    * @since 2021
-   * @description <blockquote>Convert a RGB color to HSL. Inspired and edited from mjackson/color-conversion-algorithms.js gist
-   * -> https://gist.github.com/mjackson/5311256</blockquote>
+   * @description &lt;blockquote>Convert a RGB color to HSL. Inspired and edited from mjackson/color-conversion-algorithms.js gist
+   * -> https://gist.github.com/mjackson/5311256&lt;/blockquote>
    * @param {object} rgb - An object containing the RGB values to convert
    * @return {object} An object containing HSL values for RGB input color **/
 	static rgb2hsl(rgb) {
@@ -57,7 +85,7 @@ class Utils {
       s = (l > 0.5) ? d / (2 - max - min) : d / (max + min);
       switch (max) {
 	      case r: 
-	      	h = (g - b) / d + ((g < b) ? 6 : 0);
+	      	h = (g - b) / d + ((g &lt; b) ? 6 : 0);
 	      	break;
 	      case g:
 		      h = (b - r) / d + 2;
@@ -85,8 +113,8 @@ class Utils {
    * @static
    * @author Arthur Beaulieu
    * @since 2021
-   * @description <blockquote>Convert a RGB color to HSV. Inspired and edited from mjackson/color-conversion-algorithms.js gist
-   * -> https://gist.github.com/mjackson/5311256</blockquote>
+   * @description &lt;blockquote>Convert a RGB color to HSV. Inspired and edited from mjackson/color-conversion-algorithms.js gist
+   * -> https://gist.github.com/mjackson/5311256&lt;/blockquote>
    * @param {object} rgb - An object containing the RGB values to convert
    * @return {object} An object containing HSV values for RGB input color **/
 	static rgb2hsv(rgb) {
@@ -107,7 +135,7 @@ class Utils {
 	  } else {
 	    switch (max) {
 	      case r:
-	      	h = (g - b) / d + ((g < b) ? 6 : 0);
+	      	h = (g - b) / d + ((g &lt; b) ? 6 : 0);
 	      	break;
 	      case g:
 	      	h = (b - r) / d + 2;
@@ -135,12 +163,12 @@ class Utils {
    * @static
    * @author Arthur Beaulieu
    * @since 2021
-   * @description <blockquote>Convert a RGB color to CMYK. Inspired and edited from mjackson/color-conversion-algorithms.js gist
-   * -> https://gist.github.com/mjackson/5311256</blockquote>
+   * @description &lt;blockquote>Convert a RGB color to CMYK. Inspired and edited from mjackson/color-conversion-algorithms.js gist
+   * -> https://gist.github.com/mjackson/5311256&lt;/blockquote>
    * @param {object} rgb - An object containing the RGB values to convert
    * @return {object} An object containing CMYK values for RGB input color **/
   static rgb2cmyk(rgb) {
-		if (rgb.r === 0 && rgb.g === 0 && rgb.b === 0) {
+		if (rgb.r === 0 &amp;&amp; rgb.g === 0 &amp;&amp; rgb.b === 0) {
 		  computedK = 1;
 		  return { c: 0, m: 0, y: 0, k: 1 };
 		}
@@ -167,8 +195,8 @@ class Utils {
    * @static
    * @author Arthur Beaulieu
    * @since 2021
-   * @description <blockquote>Convert a RGB color to HEX. Inspired and edited from mjackson/color-conversion-algorithms.js gist
-   * -> https://gist.github.com/mjackson/5311256</blockquote>
+   * @description &lt;blockquote>Convert a RGB color to HEX. Inspired and edited from mjackson/color-conversion-algorithms.js gist
+   * -> https://gist.github.com/mjackson/5311256&lt;/blockquote>
    * @param {object} rgb - An object containing the RGB values to convert
    * @return {object} An object containing HEX values for RGB input color **/
 	static rgb2hex(rgb) {
@@ -188,7 +216,7 @@ class Utils {
    * @static
    * @author Arthur Beaulieu
    * @since 2021
-   * @description <blockquote>Round a floating number with a given precision after coma.</blockquote>
+   * @description &lt;blockquote>Round a floating number with a given precision after coma.&lt;/blockquote>
    * @param {number} value - The floating value to round
    * @param {number} precision - The amount of number we want to have after floating point
    * @return {number} The rounded value **/
@@ -211,3 +239,26 @@ class Utils {
 
 
 export default Utils;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BaseComponent.html">BaseComponent</a></li><li><a href="KolorPick.html">KolorPick</a></li><li><a href="LinearPicker.html">LinearPicker</a></li><li><a href="RadialPicker.html">RadialPicker</a></li><li><a href="Utils.html">Utils</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Wed Jul 28 2021 12:01:37 GMT+0200 (GMT+02:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

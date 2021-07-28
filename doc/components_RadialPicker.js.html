@@ -1,4 +1,32 @@
-import BaseComponent from '../utils/BaseComponent';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/RadialPicker.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/RadialPicker.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import BaseComponent from '../utils/BaseComponent';
 import Utils from '../utils/Utils';
 
 
@@ -8,8 +36,8 @@ class RadialPicker extends BaseComponent {
   /** @summary Classical radial color picker
    * @author Arthur Beaulieu
    * @since 2021
-   * @description <blockquote>This class will build a radial color picker, containing a circular slider to
-   * select a color, and a light picker to alter this selected color to lighten or darken it.</blockquote>
+   * @description &lt;blockquote>This class will build a radial color picker, containing a circular slider to
+   * select a color, and a light picker to alter this selected color to lighten or darken it.&lt;/blockquote>
    * @param {object} options - The color picker definition
    * @param {object} options.renderTo - The HTMl DOM element to render the picker in
    * @param {function} options.onColorChange - The callback to be called each time a color is selected */
@@ -50,7 +78,7 @@ class RadialPicker extends BaseComponent {
    * @memberof RadialPicker
    * @author Arthur Beaulieu
    * @since 2021
-   * @description <blockquote>Method to initialize the component DOM and variables, to be ready to be then built.</blockquote> **/
+   * @description &lt;blockquote>Method to initialize the component DOM and variables, to be ready to be then built.&lt;/blockquote> **/
 	_init() {
 		this._dom.wrapper = document.createElement('DIV');
 		this._dom.canvasWraper = document.createElement('DIV');
@@ -92,8 +120,8 @@ class RadialPicker extends BaseComponent {
    * @memberof RadialPicker
    * @author Arthur Beaulieu
    * @since 2021
-   * @description <blockquote>Internal method to draw each canvas and pickers with proper position, and send
-   * an update to the component caller to notify the new selected color.</blockquote> **/
+   * @description &lt;blockquote>Internal method to draw each canvas and pickers with proper position, and send
+   * an update to the component caller to notify the new selected color.&lt;/blockquote> **/
 	_draw() {
 		// Clear previous canvas' contexts
 		this._ctx.colors.clearRect(0, 0, this._canvas.colors.width, this._canvas.colors.height);
@@ -106,7 +134,7 @@ class RadialPicker extends BaseComponent {
 		this._ctx.colors.stroke();
     this._ctx.colors.closePath();		
 		// Then draw the colored circle for color selection
-	  for (let angle = 0; angle <= 360; ++angle) {
+	  for (let angle = 0; angle &lt;= 360; ++angle) {
 	    const startAngle = (angle - 2) * Math.PI / 180;
 	    const endAngle = angle * Math.PI / 180;
 	    this._ctx.colors.beginPath();
@@ -179,8 +207,8 @@ class RadialPicker extends BaseComponent {
    * @memberof RadialPicker
    * @author Arthur Beaulieu
    * @since 2021
-   * @description <blockquote>This method must be overriden from parent class, as color canvas is radial and requires
-   * it own computation to determine the picker X, Y and Alpha positions.</blockquote>
+   * @description &lt;blockquote>This method must be overriden from parent class, as color canvas is radial and requires
+   * it own computation to determine the picker X, Y and Alpha positions.&lt;/blockquote>
    * @param {object} e - The mouse event **/
 	_mouseDownOnColor(e) {
 		this._isMouseDownOnColor = true;
@@ -191,7 +219,7 @@ class RadialPicker extends BaseComponent {
 		this._picker.colors.x = (this._canvas.colors.width / 2) * Math.cos(Math.PI * 2 * this._picker.colors.a / 360) + (this._canvas.colors.width / 2);
 		this._picker.colors.y = (this._canvas.colors.width / 2) * Math.sin(Math.PI * 2 * this._picker.colors.a / 360) + (this._canvas.colors.width / 2);
 
-		if (this._picker.colors.y < (this._canvas.colors.height / 2)) {
+		if (this._picker.colors.y &lt; (this._canvas.colors.height / 2)) {
 			this._picker.colors.y += this._picker.colors.h / 2;
 		} else {
 			this._picker.colors.y -= this._picker.colors.h / 2;
@@ -207,8 +235,8 @@ class RadialPicker extends BaseComponent {
    * @memberof RadialPicker
    * @author Arthur Beaulieu
    * @since 2021
-   * @description <blockquote>This method must be overriden from parent class, as color canvas is radial and requires
-   * it own computation to determine the picker X, Y and Alpha positions.</blockquote>
+   * @description &lt;blockquote>This method must be overriden from parent class, as color canvas is radial and requires
+   * it own computation to determine the picker X, Y and Alpha positions.&lt;/blockquote>
    * @param {object} e - The mouse event **/
 	_mouseMoveOnColor(e) {
     if (this._isMouseDownOnColor) {
@@ -219,13 +247,13 @@ class RadialPicker extends BaseComponent {
 			this._picker.colors.x = (this._canvas.colors.width / 2) * Math.cos(2 * Math.PI * (this._picker.colors.a / 360)) + (this._canvas.colors.width / 2); 
 			this._picker.colors.y = (this._canvas.colors.width / 2) * Math.sin(2 * Math.PI * (this._picker.colors.a / 360)) + (this._canvas.colors.width / 2);
 
-			if (this._picker.colors.x < (this._canvas.colors.width / 2)) {
+			if (this._picker.colors.x &lt; (this._canvas.colors.width / 2)) {
 				this._picker.colors.x += this._picker.colors.h / 2;
 			} else {
 				this._picker.colors.x -= this._picker.colors.h / 2;
 			}
 
-			if (this._picker.colors.y < (this._canvas.colors.height / 2)) {
+			if (this._picker.colors.y &lt; (this._canvas.colors.height / 2)) {
 				this._picker.colors.y += this._picker.colors.h / 2;
 			} else {
 				this._picker.colors.y -= this._picker.colors.h / 2;
@@ -240,3 +268,26 @@ class RadialPicker extends BaseComponent {
 
 
 export default RadialPicker;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BaseComponent.html">BaseComponent</a></li><li><a href="KolorPick.html">KolorPick</a></li><li><a href="LinearPicker.html">LinearPicker</a></li><li><a href="RadialPicker.html">RadialPicker</a></li><li><a href="Utils.html">Utils</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Wed Jul 28 2021 12:01:37 GMT+0200 (GMT+02:00)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
