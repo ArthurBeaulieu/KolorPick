@@ -12,6 +12,7 @@ class BaseComponent {
    * @param {string} type - The picker type
    * @param {object} options - The color picker definition
    * @param {object} options.renderTo - The HTMl DOM element to render the picker in
+   * @param {object} options.style - An object with css rules for bg, border, picker and padding
    * @param {function} options.onColorChange - The callback to be called each time a color is selected */
 	constructor(type, options) {
     /** @private
@@ -20,6 +21,14 @@ class BaseComponent {
     /** @private
      * @member {object} - The DOM element to render canvases in */
 		this._renderTo = options.renderTo;
+    /** @private
+     * @member {object} - The style object for component custom styling */
+    this._style = {
+      bg: options.style ? (options.style.bg ? options.style.bg : 'white') : 'white',
+      border: options.style ? (options.style.border ? options.style.border : 'black') : 'black',
+      picker: options.style ? (options.style.picker ? options.style.picker : 'white') : 'white',
+      padding: options.style ? (options.style.padding ? options.style.padding : 20) : 20
+    };
     /** @private
      * @member {function} - The callback method to call on each color modification */
 		this._onColorChange = options.onColorChange;
@@ -82,7 +91,7 @@ class BaseComponent {
     document.addEventListener('mousemove', this._mouseMoveOnColor);
     document.addEventListener('mousemove', this._mouseMoveOnLight);    
     document.addEventListener('mouseup', this._mouseUp);
-	}	
+	}
 
 
   /** @method

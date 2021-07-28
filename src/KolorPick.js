@@ -2,7 +2,7 @@ import LinearPicker from './components/LinearPicker';
 import RadialPicker from './components/RadialPicker';
 
 
-const KolorPickVersion = '0.0.1';
+const KolorPickVersion = '0.1.0';
 
 
 class KolorPick {

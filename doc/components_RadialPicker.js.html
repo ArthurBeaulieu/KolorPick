@@ -80,9 +80,9 @@ class RadialPicker extends BaseComponent {
    * @since 2021
    * @description &lt;blockquote>Method to initialize the component DOM and variables, to be ready to be then built.&lt;/blockquote> **/
 	_init() {
+		// Create DOM elements
 		this._dom.wrapper = document.createElement('DIV');
 		this._dom.canvasWraper = document.createElement('DIV');
-
 		this._canvas.colors = document.createElement('CANVAS');
 		this._canvas.light = document.createElement('CANVAS');
 		// Chain DOM elements
@@ -90,19 +90,19 @@ class RadialPicker extends BaseComponent {
 		this._dom.canvasWraper.appendChild(this._canvas.light);
 		this._dom.wrapper.appendChild(this._dom.canvasWraper);
 		this._renderTo.appendChild(this._dom.wrapper);
-		// TODO : custom margin from args etc
-		this._dom.wrapper.style.cssText = 'width:100%;';
-		this._dom.canvasWraper.style.cssText = 'padding:20px;position:relative;width:100%;';		
+		// Set DOM elements style
+		this._dom.wrapper.style.cssText = `background-color:${this._style.bg};width:100%;`;
+		this._dom.canvasWraper.style.cssText = `padding:${this._style.padding}px;position:relative;width:100%;`;
 		this._canvas.colors.style.cssText = 'width:100%';
-		this._canvas.light.style.cssText = 'border:solid 1px black;position:absolute;left:calc(20% + 20px);top:calc(20% + 20px);width:calc(60% - 40px);';
-		// Setup color canvas
-    this._canvas.colors.width = this._dom.canvasWraper.offsetWidth - 40;
-    this._canvas.colors.height = this._dom.canvasWraper.offsetWidth - 40; // Colors canvas has to be square (otherwise, !circle)
-		this._ctx.colors = this._canvas.colors.getContext('2d');
-    // Setuo light canvas
-    this._canvas.light.width = (60 * this._dom.canvasWraper.offsetWidth) / 100 - 40;
-    this._canvas.light.height = (60 * this._dom.canvasWraper.offsetWidth) / 100 - 40; // Colors canvas has to be square (otherwise, !circle)
+		this._canvas.light.style.cssText = `border:solid 1px ${this._style.border};position:absolute;left:calc(20% + ${this._style.padding}px);top:calc(20% + ${this._style.padding}px);width:calc(60% - ${this._style.padding * 2}px);`;
+    // Setup light canvas
+    this._canvas.light.width = (60 * this._dom.canvasWraper.offsetWidth) / 100 - (this._style.padding * 2);
+    this._canvas.light.height = (60 * this._dom.canvasWraper.offsetWidth) / 100 - (this._style.padding * 2); // Colors canvas has to be square (otherwise, !circle)
 		this._ctx.light = this._canvas.light.getContext('2d');
+		// Setup color canvas
+    this._canvas.colors.width = this._dom.canvasWraper.offsetWidth - (this._style.padding * 2);
+    this._canvas.colors.height = this._dom.canvasWraper.offsetWidth - (this._style.padding * 2); // Colors canvas has to be square (otherwise, !circle)
+		this._ctx.colors = this._canvas.colors.getContext('2d');
     // Init pickers position
     this._picker.colors.x = this._canvas.colors.width / 2;
     this._picker.colors.y = 0;
@@ -128,7 +128,7 @@ class RadialPicker extends BaseComponent {
 		this._ctx.light.clearRect(0, 0, this._canvas.light.width, this._canvas.light.height);
 		// Draw circular border
 		this._ctx.colors.lineWidth = 1;
-	  this._ctx.colors.strokeStyle = 'black';
+	  this._ctx.colors.strokeStyle = this._style.border;
     this._ctx.colors.beginPath();		
     this._ctx.colors.arc(this._canvas.colors.width / 2, this._canvas.colors.height / 2, this._canvas.colors.width / 2, 0, 2 * Math.PI, false);
 		this._ctx.colors.stroke();
@@ -154,7 +154,7 @@ class RadialPicker extends BaseComponent {
     this._ctx.colors.moveTo(this._canvas.colors.width / 2, this._canvas.colors.height / 2);
     this._ctx.colors.arc(this._canvas.colors.width / 2, this._canvas.colors.height / 2, this._canvas.colors.width / 2 - this._picker.colors.h, 0, 2 * Math.PI, false);
     this._ctx.colors.closePath();
-    this._ctx.colors.fillStyle = this._renderTo.style.backgroundColor || 'white';
+    this._ctx.colors.fillStyle = this._style.bg;
     this._ctx.colors.fill();  
 		// Color gradient with white from left to right
 		const pickedColor = this._getPickedColor();
@@ -178,14 +178,14 @@ class RadialPicker extends BaseComponent {
 		this._ctx.colors.rotate(- this._picker.colors.a * Math.PI / 180);
 		this._ctx.colors.translate(- this._canvas.colors.width / 2, - this._canvas.colors.height / 2);
 		this._ctx.colors.lineWidth = 3;
-		this._ctx.colors.strokeStyle = 'white';
+		this._ctx.colors.strokeStyle = this._style.picker;
 		this._ctx.colors.stroke();
 		// Light picker
 		const pickedLight = this._getPickedLight();
 		this._ctx.light.beginPath();
 		this._ctx.light.arc(this._picker.light.x, this._picker.light.y, this._picker.light.r, 0, Math.PI * 2);
 		this._ctx.light.closePath();
-		this._ctx.light.strokeStyle = 'white';
+		this._ctx.light.strokeStyle = this._style.picker;
 		this._ctx.light.lineWidth = 3;		
 		this._ctx.light.fillStyle = `rgb(${pickedLight.r}, ${pickedLight.g}, ${pickedLight.b})`;
 		this._ctx.light.fill();
@@ -197,7 +197,7 @@ class RadialPicker extends BaseComponent {
 			hsv: Utils.rgb2hsv(pickedLight),
 			cmyk: Utils.rgb2cmyk(pickedLight),
 			hex: Utils.rgb2hex(pickedLight)
-		});				
+		});
 	}
 
 
@@ -284,7 +284,7 @@ export default RadialPicker;
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Wed Jul 28 2021 12:01:37 GMT+0200 (GMT+02:00)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Wed Jul 28 2021 14:21:38 GMT+0200 (GMT+02:00)
 </footer>
 
 <script> prettyPrint(); </script>
