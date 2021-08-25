@@ -25,7 +25,7 @@ const component = new KolorPick({
 	style: {
 		bg: 'white', // CSS color for component background
 		border: 'black', // CSS color for canvas border
-		picking: 'white, // CSS color for pickers
+		picking: 'white', // CSS color for pickers
 		padding: 20 // Padding size in px to apply
 	},
 	onColorChange: data => { // Callback method called on each color modification
