@@ -4,23 +4,75 @@
 }
 
 body {
+	font-family: sans-serif;
+	margin: 0;
+	overflow: hidden;
+}
+
+nav {
+	align-items: center;
+	background-color: black;
+	display: flex;
+	height: 40px;
+	justify-content: center;
+	width: 100%;
+}
+
+nav h1 {
+  color: white;
+  height: 40px;
+  position: absolute;
+  left: 10px;
+  line-height: 40px;
+}
+
+nav a {
+	align-items: center;
+	border-bottom: solid 3px transparent;
+	color: white;
+	display: flex;
+	height: 40px;
+	padding: 0 10px;
+	text-decoration: none;
+}
+
+nav a.selected {
+	border-bottom: solid 3px #6EFF01;
+	font-weight: bold;
+}
+
+nav a.github {
+  cursor: pointer;
+  fill: white;
+  height: 40px;
+  position: absolute;
+  right: 10px;
+  transition: fill 0.4s;
+}
+
+nav a.github:active, nav a.github:focus, nav a.github:hover {
+  fill: #56D45B;
+}
+
+main {
 	align-items: center;
 	display: flex;
 	flex-direction: column;
-	font-family: sans-serif;
-	justify-content: center;
-	margin: 50px 0;
-	width: 100vw;
+	height: calc(100vh - 40px);
+	justify-content: center;	
+	width: 100%;
 }
 
 #test-container-linear {
 	background: rgba(127, 127, 127, .1);
-	height: 300px;
-	width: 500px;
+	height: 60%;
+	margin-bottom: 20px;
+	width: 50%;
 }
 
 #test-container-radial {
 	background: rgba(127, 127, 127, .1);
-	height: 450px;
-	width: 450px;
+	height: auto;
+	margin-bottom: 20px;
+	width: 27%;
 }

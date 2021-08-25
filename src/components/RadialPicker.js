@@ -38,9 +38,12 @@ class RadialPicker extends BaseComponent {
 			}
 		};
 		// Component init sequence
-		this._init();
-		this._draw();
-		this._events();		
+    // In case of vertical scrollbar, force resize to make canvas properly fit in parent width
+    requestAnimationFrame(() => {
+			this._init();
+			this._draw();
+			this._events();
+    });		
 	}
 
 
@@ -233,6 +236,38 @@ class RadialPicker extends BaseComponent {
 
 	    this._draw();
     }
+	}
+
+
+  /** @method
+   * @name _onResize
+   * @private
+   * @memberof RadialPicker
+   * @author Arthur Beaulieu
+   * @since 2021
+   * @description <blockquote>Callback that re-computes the components dimension on each window resize.</blockquote> **/
+	_onResize() {
+		if (this._renderTo.offsetWidth <= 80) {
+			console.warn('KolorPick : the canvas size is not enough to properly display the radial color picker.');
+		}
+
+    this._canvas.light.width = (60 * this._dom.canvasWraper.offsetWidth) / 100 - (this._style.padding * 2);
+    this._canvas.light.height = (60 * this._dom.canvasWraper.offsetWidth) / 100 - (this._style.padding * 2); // Colors canvas has to be square (otherwise, !circle)
+		this._ctx.light = this._canvas.light.getContext('2d');
+		// Setup color canvas
+    this._canvas.colors.width = this._dom.canvasWraper.offsetWidth - (this._style.padding * 2);
+    this._canvas.colors.height = this._dom.canvasWraper.offsetWidth - (this._style.padding * 2); // Colors canvas has to be square (otherwise, !circle)
+		this._ctx.colors = this._canvas.colors.getContext('2d');
+    // Init pickers position
+    this._picker.colors.x = this._canvas.colors.width / 2;
+    this._picker.colors.y = 0;
+    this._picker.colors.h = this._canvas.colors.width / 15;
+    this._picker.colors.w = this._canvas.colors.width / 62;
+    this._picker.colors.a = -90;
+    this._picker.light.x = this._canvas.light.width - 1;
+    this._picker.light.y = 1;
+    // Force redrawing of canvases
+    this._draw();
 	}
 
 

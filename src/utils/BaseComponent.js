@@ -67,6 +67,7 @@ class BaseComponent {
     document.removeEventListener('mousemove', this._mouseMoveOnColor);
     document.removeEventListener('mousemove', this._mouseMoveOnLight);    
     document.removeEventListener('mouseup', this._mouseUp);
+    window.removeEventListener('resize', this._onResize);
     Object.keys(this).forEach(key => { delete this[key]; });	
 	}
 
@@ -85,12 +86,14 @@ class BaseComponent {
     this._mouseDownOnLight = this._mouseDownOnLight.bind(this);
     this._mouseMoveOnLight = this._mouseMoveOnLight.bind(this);
     this._mouseUp = this._mouseUp.bind(this);
+    this._onResize = this._onResize.bind(this);
     // Subscribe to mouse event to react
     this._canvas.colors.addEventListener('mousedown', this._mouseDownOnColor);
     this._canvas.light.addEventListener('mousedown', this._mouseDownOnLight);
     document.addEventListener('mousemove', this._mouseMoveOnColor);
     document.addEventListener('mousemove', this._mouseMoveOnLight);    
     document.addEventListener('mouseup', this._mouseUp);
+    window.addEventListener('resize', this._onResize);
 	}
 
 
@@ -211,7 +214,21 @@ class BaseComponent {
 	_mouseUp() {
 		this._isMouseDownOnColor = false;
 		this._isMouseDownOnLight = false;
-	}	
+	}
+
+
+
+  /** @method
+   * @name _onResize
+   * @private
+   * @memberof BaseComponent
+   * @author Arthur Beaulieu
+   * @since 2021
+   * @description <blockquote>Callback that re-computes the components dimension on each window resize
+   * This method must be overriden in each child class to properly implement resizement.</blockquote> **/
+  _onResize() {
+    // Must be overriden in child classes
+  }
 
 
   /** @method

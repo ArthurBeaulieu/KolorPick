@@ -35,9 +35,12 @@ class LinearPicker extends BaseComponent {
 			}
 		};
 		// Component init sequence
-		this._init();
-		this._draw();
-		this._events();		
+    // In case of vertical scrollbar, force resize to make canvas properly fit in parent width
+    requestAnimationFrame(() => {
+			this._init();
+			this._draw();
+			this._events();
+    });
 	}
 
 
@@ -55,12 +58,14 @@ class LinearPicker extends BaseComponent {
 		this._canvas.light = document.createElement('CANVAS');
 		// Chain DOM elements
     this._dom.wrapper.appendChild(this._canvas.light);
-    this._dom.wrapper.appendChild(this._canvas.colors);    	
+    this._dom.wrapper.appendChild(this._canvas.colors);
 		this._renderTo.appendChild(this._dom.wrapper);
 		// Set DOM elements style
-		this._dom.wrapper.style.cssText = `background-color:${this._style.bg};display:grid;grid-template-rows:1fr ${(this._style.padding * 2) + 2}px;height:100%;padding:20px;width:100%;`; // 22 + 15
+		this._dom.wrapper.style.cssText = `background-color:${this._style.bg};display:grid;grid-template-rows:1fr ${(this._style.padding * 2) + 2}px;height:100%;padding:20px;width:100%;`;
 		this._canvas.colors.style.cssText = `border:solid 1px ${this._style.border};margin-top:${this._style.padding}px;`;
 		this._canvas.light.style.cssText = `border:solid 1px ${this._style.border};height:100%;width:100%;`;
+    // Force height to be locked at initial height
+		this._dom.wrapper.style.maxHeight = `${this._renderTo.offsetHeight}px`;
 		// Setup light canvas
     this._canvas.light.width = this._dom.wrapper.offsetWidth - (this._style.padding * 2) - 2;
     this._canvas.light.height = this._dom.wrapper.offsetHeight - (this._style.padding * 2) - (this._style.padding * 2) - 2;
@@ -144,6 +149,34 @@ class LinearPicker extends BaseComponent {
 			hex: Utils.rgb2hex(pickedLight)
 		});
 	}
+
+
+  /** @method
+   * @name _onResize
+   * @private
+   * @memberof LinearPicker
+   * @author Arthur Beaulieu
+   * @since 2021
+   * @description <blockquote>Callback that re-computes the components dimension on each window resize.</blockquote> **/
+  _onResize() {
+		if (this._renderTo.offsetWidth <= 80) {
+			console.warn('KolorPick : the canvas size is not enough to properly display the linear color picker.');
+		}
+
+    // Setup light canvas
+    this._canvas.light.width = this._dom.wrapper.offsetWidth - (this._style.padding * 2) - 2;
+    this._canvas.light.height = this._dom.wrapper.offsetHeight - (this._style.padding * 2) - (this._style.padding * 2) - 2;
+    // Setup color canvas
+    this._canvas.colors.width = this._dom.wrapper.offsetWidth - (this._style.padding * 2) - 2;
+    this._canvas.colors.height = `${this._style.padding}`;
+    // Force pickers position to avoid them to go out of range
+    this._picker.colors.x = this._canvas.colors.width / 2;
+    this._picker.colors.y = this._canvas.colors.height / 2;
+    this._picker.light.x = this._canvas.light.width - 1;
+    this._picker.light.y = 1;
+    // Force redrawing of canvases
+    this._draw();
+  }	
 
 
 }
